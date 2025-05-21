@@ -2,17 +2,15 @@ const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
 const pollSchema = new Schema({
-    pollId: {type: String, required: true, unique: true},
-    status: {type: String, required: true},
-    createdby: {type: String, required: true},
+    createdBy: {type: String, required: true},
+    status: {type: String, default: "open"},
     question: {type: String, required: true},
-    description: {type: String, required: true},
+    description: {type: String},
     options: {type: Array, required: true},
-    votes: {type: Array, required: true},
-    userVotes: {type: Array, required: true},
-    totalVotes: {type: Number, required: true},
-    endDate: {type: Date, required: true},
-    results: {type: Array, required: true},
+    votes: {type: Array},
+    userVotes: {type: Array},
+    totalVotes: {type: Number, default: 0},
+    endDate: {type: Date},
     createdAt: { type: Date, default: Date.now }
 });
 

@@ -1,14 +1,26 @@
 const {Poll} = require("../models/Poll");
 
 const getPoll = async (req, res) => {
-    const polls = await Poll.find();
-    res.json(polls);
+    const poll = await Poll.findById(req.params.id);
+    res.json(poll);
 }
 
 const createPoll = async (req, res) => {
-    const newPoll = new Poll(req.body);
-    await newPoll.save();
-    res.json(newPoll);
+    if (req.user.adminRole === true) {
+        try {
+            const newPoll = new Poll({...req.body, createdBy: req.user.username});
+            await newPoll.save();
+            res.json(newPoll);
+            
+        } catch (error) {
+            console.log(error);
+            res.status(400).send("Unexpected error");
+        }
+    }
+    else {
+        res.status(401).send("Unauthorized");
+        return;
+    }
 }
 
 const updatePoll = async (req, res) => {
@@ -21,9 +33,4 @@ const deletePoll = async (req, res) => {
     res.json(deletedPoll);
 }
 
-module.exports = {
-    getPoll
-    , createPoll
-    , updatePoll
-    , deletePoll
-}
+module.exports = { getPoll, createPoll, updatePoll, deletePoll}
