@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
     // #swagger.tags = ['Users']
 
-    const {name, username, password, email, country} = req.body
+    const {name, username, password} = req.body
     const hashedPassword =  bcryptjs.hashSync(password);
 
     const checkUsername = await User.findOne(
@@ -48,9 +48,7 @@ const registerUser = async (req, res) => {
             {
                 name: name,
                 username: username,
-                password: hashedPassword,
-                email: email,
-                country: country
+                password: hashedPassword
             }
         )
 

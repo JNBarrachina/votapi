@@ -2,8 +2,8 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
     info: {
-        title: 'Azafran API',
-        description: 'Recipes App'
+        title: 'Polls API',
+        description: 'Polls App'
     },
     host: 'localhost:8080'
 };

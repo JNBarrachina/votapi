@@ -9,8 +9,7 @@ const swaggerDocument = require('./swagger-output.json');
 const {dbConnect} = require("./db");
 
 const usersRouter = require("./routes/users.routes");
-const ingredientsRouter = require("./routes/ingredients.routes");
-const recipesRouter = require("./routes/recipes.routes");
+const pollsRouter = require("./routes/polls.routes");
 
 const {authMiddleware} = require("./middlewares/auth");
 
@@ -22,8 +21,7 @@ const main = () => {
 
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.use("/users", usersRouter);
-    app.use("/ingredients", authMiddleware, ingredientsRouter);
-    app.use("/recipes", recipesRouter);
+    app.use("/polls", authMiddleware, pollsRouter);
 
     dbConnect();
 
