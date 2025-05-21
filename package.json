@@ -1,0 +1,23 @@
+{
+  "name": "mongodb-fundamentals",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "swagger": "node swagger.js",
+    "start": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google/genai": "^0.14.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.3",
+    "swagger-ui-express": "^5.0.1",
+    "swagger-autogen": "^2.23.7"
+  }
+}
