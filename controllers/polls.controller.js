@@ -5,6 +5,23 @@ const getPoll = async (req, res) => {
     res.json(poll);
 }
 
+const getDashboard = async (req, res) => {
+    if (req.user.adminRole === true) {
+        try {
+            const allPolls = await Poll.find();
+            res.json(allPolls); 
+        } catch (error) {
+            console.log(error);
+            res.status(400).send("Unexpected error");
+        }
+    }
+    else {
+        res.status(401).send("Unauthorized to get dashboard");
+        return;
+    }
+    
+}
+
 const createPoll = async (req, res) => {
     if (req.user.adminRole === true) {
         try {
@@ -18,19 +35,19 @@ const createPoll = async (req, res) => {
         }
     }
     else {
-        res.status(401).send("Unauthorized");
+        res.status(401).send("Unauthorized to create new polls");
         return;
     }
 }
 
 const updatePoll = async (req, res) => {
-    const updatedPoll = await Poll.findOneAndUpdate({pollId: req.body.pollId}, req.body);
+    const updatedPoll = await Poll.findByIdAndUpdate({pollId: req.params.id}, req.body);
     res.json(updatedPoll);
 }
 
 const deletePoll = async (req, res) => {
-    const deletedPoll = await Poll.findOneAndDelete({pollId: req.body.pollId});
+    const deletedPoll = await Poll.findByIdAndDelete({pollId: req.params.id});
     res.json(deletedPoll);
 }
 
-module.exports = { getPoll, createPoll, updatePoll, deletePoll}
+module.exports = { getPoll, getDashboard, createPoll, updatePoll, deletePoll }

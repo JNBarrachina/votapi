@@ -13,13 +13,13 @@ const loginUser = async (req, res) => {
         {username: username}
     );
     if (!existingUser){
-        res.status(400).send("El usuario no existe");
+        res.status(400).send("El usuario o la contraseña son incorrectos");
         return;
     }
 
     const passwordMatch = bcryptjs.compareSync(password, existingUser.password);
     if (!passwordMatch){
-        res.status(400).send("Contraseña incorrecta");
+        res.status(400).send("El usuario o la contraseña son incorrectos");
         return;
     }
     else{

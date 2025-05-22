@@ -3,7 +3,7 @@ const { Schema } = require("mongoose");
 
 const pollSchema = new Schema({
     createdBy: {type: String, required: true},
-    status: {type: String, default: "open"},
+    status: {type: String, default: "Open"},
     question: {type: String, required: true},
     description: {type: String},
     options: {type: Array, required: true},
