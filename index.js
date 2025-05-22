@@ -19,6 +19,7 @@ const main = () => {
     app.use(cors());
     app.use(express.json());
 
+    app.use(express.static('public'));
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.use("/users", usersRouter);
     app.use("/polls", authMiddleware, pollsRouter);

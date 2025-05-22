@@ -8,6 +8,7 @@ const loginUser = async (req, res) => {
     // #swagger.tags = ['Users']
 
     const {username, password} = req.body;
+    console.log(req.body);
 
     const existingUser = await User.findOne(
         {username: username}
