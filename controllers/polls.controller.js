@@ -23,25 +23,33 @@ const getDashboard = async (req, res) => {
 }
 
 const createPoll = async (req, res) => {
-    if (req.user.adminRole === true) {
-        try {
-            const newPoll = new Poll({...req.body, createdBy: req.user.username});
-            await newPoll.save();
-            res.json(newPoll);
-            
-        } catch (error) {
-            console.log(error);
-            res.status(400).send("Unexpected error");
-        }
-    }
-    else {
+    if (req.user.adminRole === false) {
         res.status(401).send("Unauthorized to create new polls");
         return;
+    }
+
+    try {
+        const options = req.body.options.map((option, index) => ({
+            id: index + 1, // o puedes utilizar un UUID si lo prefieres
+            value: option,
+        }));
+
+        const newPoll = new Poll({ ...req.body, options, createdBy: req.user.username });
+        await newPoll.save();
+        res.json(newPoll);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send("Unexpected error");
     }
 }
 
 const updatePoll = async (req, res) => {
-    const updatedPoll = await Poll.findByIdAndUpdate({pollId: req.params.id}, req.body);
+    const pollId = await Poll.findById(req.params.id);
+    const userChoice = req.body.userChoice;
+
+    const userVote = { userId: req.user._id, vote: userChoice };
+
+    const updatedPoll = await Poll.findByIdAndUpdate(pollId, {$push: { votes: userVote }});
     res.json(updatedPoll);
 }
 
