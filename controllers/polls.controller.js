@@ -3,17 +3,23 @@ const {Poll} = require("../models/Poll");
 const getPoll = async (req, res) => {
     const poll = await Poll.findById(req.params.id);
 
+    if (!poll) {
+        res.status(404).send("No se ha encontrado una encuesta con ese ID");
+        return;
+    }
+
     const pollData = {
-        createdBy: poll.createdBy,
-        status: poll.status,
-        question: poll.question,
-        description: poll.description,
-        options: poll.options,
-        createdAt: poll.createdAt,
-        endDate: poll.endDate
+            createdBy: poll.createdBy,
+            status: poll.status,
+            question: poll.question,
+            description: poll.description,
+            options: poll.options,
+            createdAt: poll.createdAt,
+            endDate: poll.endDate
     };
 
     res.json(pollData);
+    
 }
 
 const votePoll = async (req, res) => {

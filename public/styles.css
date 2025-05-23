@@ -120,6 +120,13 @@ input {
     background-color: black;
 }
 
+.infoMessage {
+    display: none;
+
+    font-weight: bold;
+    text-align: center;
+}
+
 hr {
     border: 1px solid gainsboro;
     margin: 15px 5px 15px 5px;

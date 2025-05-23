@@ -7,6 +7,9 @@ loginBtn.addEventListener("click", userLogin);
 const userForm = document.getElementById("userForm");
 const loginBox = document.getElementById("loginBox");
 
+const infoMessage = document.createElement("p");
+infoMessage.setAttribute("id", "infoMessage");
+infoMessage.setAttribute("class", "infoMessage");
 
 async function userLogin(){
     const username = document.getElementById("usernameInput").value;
@@ -22,27 +25,28 @@ async function userLogin(){
     })
     
     .then((res) => res.json())
-    .then((res) => {
-        if(res.accessToken){
-            localStorage.setItem("accessToken", res.accessToken);
-            showPollInput();
-        }
-        else{
-            const alertUserLogin = document.createElement("p");
-            alertUserLogin.innerText = "El usuario o la contraseña son incorrectos";
-            alertUserLogin.style.color = "red";
-
-            userForm.appendChild(alertUserLogin);
-        }
+    .then((res) => {        
+        localStorage.setItem("accessToken", res.accessToken);
+        showPollInput();
     })
     
-    .catch((err) => console.log(err));
+    .catch((err) => {
+        console.log(err);
+
+        infoMessage.innerText = "El usuario o la contraseña son incorrectos";
+        infoMessage.style.color = "red";
+        infoMessage.style.display = "block";
+
+        userForm.append(infoMessage);
+        return;
+    });
 }
 
 const showPollInput = () => {
     loginBox.innerHTML = "";
 
     const pollAccessForm = document.createElement("section");
+    pollAccessForm.setAttribute("id", "pollAccessForm");
     pollAccessForm.setAttribute("class", "pollAccessForm");
 
     const pollInputHeader = document.createElement("h2");
@@ -63,8 +67,16 @@ const showPollInput = () => {
 }
 
 async function pollAccess(){
-    console.log("Accediendo a la encuesta");
     const pollId = document.getElementById("pollIdInput").value;
+
+    if (pollId == ""){
+        infoMessage.innerText = "No has introducido el ID de la encuesta";
+        infoMessage.style.color = "red";
+        infoMessage.style.display = "block";
+
+        pollAccessForm.append(infoMessage);
+        return;
+    }
 
     await fetch(`${BASE_URL}/polls/${pollId}`, {
         method: "GET",
@@ -75,12 +87,21 @@ async function pollAccess(){
     })
     
     .then((res) => res.json())
-    .then((poll) => {
+    .then((res) => {
         mainPage.innerHTML = "";
-        showPollData(poll);
+        showPollData(res);
     })
     
-    .catch((err) => console.log(err));
+    .catch((error) =>{
+        console.log(error);
+
+        infoMessage.innerText = "No existe una encuesta con ese ID";
+        infoMessage.style.color = "red";
+        infoMessage.style.display = "block";
+
+        pollAccessForm.append(infoMessage);
+        return;
+    });
 }
 
 const showPollData = (poll) => {
