@@ -105,28 +105,48 @@ async function pollAccess(){
 }
 
 const showPollData = (poll) => {
-    const pollData = document.createElement("section");
-    pollData.setAttribute("class", "pollData");
+    const pollDataBox = document.createElement("section");
+    pollDataBox.setAttribute("class", "pollDataBox");
 
     const pollHeader = document.createElement("h2");
     pollHeader.innerText = poll.question;
-
     const pollDescription = document.createElement("p");
     pollDescription.innerText = poll.description;
 
-    const pollOptions = document.createElement("ul");
+    console.log(poll.options);
+
+    const pollOptions = document.createElement("form");
+    pollOptions.setAttribute("id", "pollOptionsForm");
+    pollOptions.setAttribute("class", "pollOptionsForm");
+
     poll.options.forEach((option) => {
-        const pollOption = document.createElement("li");
-        pollOption.innerText = option;
-        pollOptions.appendChild(pollOption);
+        const pollOption = document.createElement("div");
+        pollOption.setAttribute("class", "pollOption");
+
+        const pollOptionLabel = document.createElement("label");
+        pollOptionLabel.setAttribute("for", option.id);
+        pollOptionLabel.innerText = option.value;
+
+        const pollOptionInput = document.createElement("input");
+        pollOptionInput.setAttribute("type", "radio");
+        pollOptionInput.setAttribute("id", option.id);
+        pollOptionInput.setAttribute("name", "pollOption");
+        pollOptionInput.setAttribute("value", option.id);
+        pollOption.append(pollOptionInput, pollOptionLabel);
+        pollOptions.append(pollOption);
     });
 
-    const pollResultsBtn = document.createElement("button");
-    pollResultsBtn.setAttribute("id", "pollResultsBtn");
-    pollResultsBtn.setAttribute("class", "pollResultsBtn");
-    pollResultsBtn.addEventListener("click", () => getPollResults(poll));
-    pollResultsBtn.innerText = "Ver resultados";
+    const pollVotesBtn = document.createElement("button");
+    pollVotesBtn.setAttribute("id", "pollResultsBtn");
+    pollVotesBtn.setAttribute("class", "pollResultsBtn");
+    pollVotesBtn.addEventListener("click", () => userVoteRegister(poll));
+    pollVotesBtn.innerText = "Votar";
 
-    pollData.append(pollHeader, pollDescription, pollOptions, pollResultsBtn);
-    mainPage.append(pollData);
+    pollDataBox.append(pollHeader, pollDescription, pollOptions, pollVotesBtn);
+    mainPage.append(pollDataBox);
+}
+
+
+function userVoteRegister(poll) {
+     
 }

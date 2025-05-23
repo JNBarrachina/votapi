@@ -21,6 +21,8 @@ main {
     flex-flow: row wrap;
     justify-content: center;
     align-content: center;
+
+    padding: 1rem;
 }
 
 h1, h2 {
@@ -66,7 +68,7 @@ h1, h2 {
     align-content: flex-start;
 }
 
-.loginForm, .pollAccessForm {
+.loginForm, .pollAccessForm, .pollDataBox {
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
